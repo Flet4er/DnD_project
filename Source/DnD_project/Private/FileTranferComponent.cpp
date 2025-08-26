@@ -4,7 +4,6 @@
 #include "FileTranferComponent.h"
 #include "Dice_PLayerState.h"
 #include "Engine/World.h"
-#include "FImageChunk.h"
 #include "Dice_GameState.h"
 
 UFileTranferComponent::UFileTranferComponent()

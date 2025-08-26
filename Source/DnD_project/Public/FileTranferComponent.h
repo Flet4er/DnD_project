@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
 #include "FFileChunk.h"
-#include "FImageChunk.h"
 #include "Net/UnrealNetwork.h"
 #include "FileTranferComponent.generated.h"
 
