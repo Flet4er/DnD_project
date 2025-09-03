@@ -5,6 +5,7 @@
 #include "FFileChunk.h"
 #include "CoreMinimal.h"
 #include "GameFramework/GameMode.h"
+#include "FileServerManager.h"
 #include "DiceGameMode.generated.h"
 
 /**
@@ -15,6 +16,8 @@ class DND_PROJECT_API ADiceGameMode : public AGameMode
 {
 	GENERATED_BODY()
 public:
+	ADiceGameMode();
+
 	UPROPERTY()
 	int8 SendCount = 0;
 	UPROPERTY()
@@ -29,6 +32,9 @@ public:
 	UPROPERTY()
 	bool bIsSending = false;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UFileServerManager* FileServerManagerComponent;
+
 	TArray<FFileChunk> FileChunks;
 	int32 CurrentChunkToSend;
 
@@ -42,7 +48,7 @@ public:
 	void SynchronizeImageOnClients();
 
 	UFUNCTION()
-	TArray<FText> GetImageNameToSync();
+	TArray<FString> GetImageNameToSync();
 
 	virtual void StartPlay();
 	void StartSendingNextFile();

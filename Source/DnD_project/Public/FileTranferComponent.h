@@ -6,7 +6,9 @@
 #include "UObject/NoExportTypes.h"
 #include "FFileChunk.h"
 #include "Net/UnrealNetwork.h"
+#include "HttpModule.h"
 #include "FileTranferComponent.generated.h"
+
 
 /*
 конструктор поставил в Dice_PlayerState
@@ -30,4 +32,13 @@ public:
     void Client_ReceiveFileChunk(const FFileChunk& Chunk);
 
     void SaveReceivedFile(const TArray<uint8>& FileData, const FString& OriginalFileName);
+
+    UFUNCTION(BlueprintCallable, Category = "HTTP Download")
+    void DownloadFileFromURL(const FString& FileURL, const FString& LocalFileName);
+
+    UFUNCTION(NetMulticast,Reliable)
+    void Multi_SyncronizeFiles(const TArray<FString>& ImagesToSyncronize, const FString& ServerURL);
+
+protected:
+    void OnDownloadComplete(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful, FString LocalFileName);
 };

@@ -8,8 +8,11 @@
 #include "Dice_GameInstance.h"
 #include "Containers/Queue.h"
 
+ADiceGameMode::ADiceGameMode()
+{
+    FileServerManagerComponent = CreateDefaultSubobject<UFileServerManager>(TEXT("ServerManager"));
 
-
+}
 void ADiceGameMode::StartPlay()
 {
     Super::StartPlay();
@@ -26,7 +29,7 @@ void ADiceGameMode::OnPostLogin(AController* NewPlayer)
     UE_LOG(LogTemp, Log, TEXT("NewPlayerJoin: %s"), *NewPlayer->GetName());
 }
 
-TArray<FText> ADiceGameMode::GetImageNameToSync()
+TArray<FString> ADiceGameMode::GetImageNameToSync()
 {
     UDice_GameInstance* MyGI = Cast< UDice_GameInstance>(GetGameInstance());
     if (MyGI)
@@ -37,33 +40,39 @@ TArray<FText> ADiceGameMode::GetImageNameToSync()
 
 
             TArray<FImageSavedMasterStrct> TargetStruct = SaveObject->SavedImageStrct;
-            TArray<FText> SyncArray;        
+            TArray<FString> SyncArray;        
             for (auto& Element : TargetStruct)
             {
-                SyncArray.Add(Element.FileName); // странная хрень, наверно нужно добавлять изображение по текущей SessionName
+                SyncArray.Add(Element.FileName.ToString()); // странная хрень, наверно нужно добавлять изображение по текущей SessionName
             }
             return SyncArray;
         }
     }
-    return TArray<FText>();
+    return TArray<FString>();
 }
 void ADiceGameMode::SynchronizeImageOnClients()
 {
-    TArray<FText> TargetArray = GetImageNameToSync();
+    TArray<FString> TargetArray = GetImageNameToSync();
     if (TargetArray.IsEmpty())
     {
         return;
     }
 
-    if(GetWorld()->GetGameState())
+    for (FConstPlayerControllerIterator Iterator = GetWorld()->GetPlayerControllerIterator(); Iterator; ++Iterator)
     {
-    FString SessionName = Cast<ADice_GameState>(GetWorld()->GetGameState())->GetSessionName();
-    for (auto& Element : TargetArray)
-    {
-        //FPaths::ProjectDir() / TEXT("Saved/SaveGames")
-        FString Path = FPaths::ProjectDir() / TEXT("Saved/SaveGames") / SessionName / Element.ToString() + TEXT(".png");
-        SendBigFileToClients(Path);
-    }
+        APlayerController* PC = Iterator->Get();
+        if (PC && PC->IsLocalController())
+        {
+            ADicePlayerController* MyPC = Cast<ADicePlayerController>(PC);
+            if (MyPC)
+            {
+                ADice_PlayerState* MyPS = MyPC->GetPlayerState<ADice_PlayerState>();
+                if (MyPS)
+                {
+                    MyPS->FileTransferComponent->Multi_SyncronizeFiles(TargetArray, FileServerManagerComponent->GetServerURL());
+                }
+            }
+        }
     }
 }
 
