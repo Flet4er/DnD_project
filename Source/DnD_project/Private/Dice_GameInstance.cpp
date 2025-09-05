@@ -9,6 +9,7 @@
 #include "Kismet/KismetRenderingLibrary.h"
 #include "PrimarySaveGame.h"
 #include "Dice_GameState.h"
+#include "ImportImageLibrary.h"
 
 void UDice_GameInstance::Init()
 {
@@ -149,7 +150,8 @@ void UDice_GameInstance::LoadImageFromDiskAndSet(TArray<FImageSavedMasterStrct> 
 			FString path = FPaths::ProjectDir() / CurrentSavePath / sessionname.ToString() / name.ToString() + TEXT(".png"); // ¬от тут формат png, если делать по нормальному поддержку нескольких, то нужно и сохран€ть в других, пока так
 
 			UE_LOG(LogTemp, Log, TEXT("Path  = %s"), *path);
-			UTexture2D* image = LoadImageFromDisk(path);
+			UTexture2D* image = UImportImageLibrary::LoadImageFromDisk(this, path);
+			//UTexture2D* image = LoadImageFromDisk(path);
 			if (image)
 			{
 				UE_LOG(LogTemp, Log, TEXT("Name  = %s"), *name.ToString());
@@ -168,13 +170,14 @@ void UDice_GameInstance::LoadImageFromDiskAndSet(TArray<FImageSavedMasterStrct> 
 		return;
 	}
 }
-
-UTexture2D* UDice_GameInstance::LoadImageFromDisk(FString Filename)
+/* перенес в UImportImageLibrary
+UTexture2D* UDice_GameInstance::LoadImageFromDisk(FString Filepath)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Calling LoadImageFromDisk with path: %s"), *Filename);
-	UTexture2D* image = UKismetRenderingLibrary::ImportFileAsTexture2D(this, Filename);
+	UE_LOG(LogTemp, Warning, TEXT("Calling LoadImageFromDisk with path: %s"), *Filepath);
+	UTexture2D* image = UKismetRenderingLibrary::ImportFileAsTexture2D(this, Filepath);
 	return image;
 }
+*/
 
 UDice_SaveGame* UDice_GameInstance::GetSaveGameObject()
 {

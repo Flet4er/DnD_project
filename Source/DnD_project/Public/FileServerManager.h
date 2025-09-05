@@ -27,20 +27,16 @@ public:
     UFUNCTION(BlueprintCallable, Category = "HTTP Server")
     void StopServer();
 
-    // Получает базовый URL для файлов (например, "http://192.168.1.100:8080/files/")
+    // Получает базовый URL сервера типо такого: 127.0.0.1:8080/SessionName
     UFUNCTION(BlueprintCallable, Category = "HTTP Server")
     FString GetServerURL() const;
 
     UFUNCTION()
     FString GetServerIP() const;
-protected:
-    // Обработчик для маршрута /files/{filename}
-    // Это будет делегат или лямбда, переданная в BindRoute
-    // void HandleFileRequest(const FHttpServerRequest& Request, const FHttpServerResponse& Response);
 
 private:
     TSharedPtr<IHttpRouter> Route;
     int32 ListeningPort;
-    FString PublicFilesDirectory; // Путь к папке с файлами, например, FPaths::ProjectSavedDir() / TEXT("ServedFiles")
+    FString PublicFilesDirectory; 
 
 };

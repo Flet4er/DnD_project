@@ -54,9 +54,10 @@ public:
 	void SetServerSessionName(FText Name);
 	UFUNCTION()
 	void LoadImageFromDiskAndSet(TArray<FImageSavedMasterStrct> TargetArray, UDice_SaveGame* SaveObj);
-
-	UFUNCTION()
-	UTexture2D* LoadImageFromDisk(FString Filename);
+	/*
+	UFUNCTION(BlueprintCallable)
+	UTexture2D* LoadImageFromDisk(FString Filepath);
+	*/
 
 	UFUNCTION(BlueprintCallable)
 	UDice_SaveGame* GetSaveGameObject();

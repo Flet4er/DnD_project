@@ -62,11 +62,11 @@ void ADice_Base::BeginPlay()
 
 	UE_LOG(LogTemp, Warning, TEXT("Some String"));
 	UE_LOG(LogTemp, Error, TEXT("row = %f"), row);
-	//UE_LOG(LogTemp, Fatal, TEXT("row = %f"), row); //������ � ���� ����� (���� ����������)
 
-	UE_LOG(LogTemp, Error, TEXT("row = %f.2f"), row); //�������� ������
 
-	UE_LOG(LogTemp, Warning, TEXT("Text print = %s"), *ErrorName); //��� ��������������� ������ ������ �������� *
+	UE_LOG(LogTemp, Error, TEXT("row = %f.2f"), row);
+
+	UE_LOG(LogTemp, Warning, TEXT("Text print = %s"), *ErrorName); 
 	UE_LOG(LogTemp, Warning, TEXT("Text print = %s"), *BoneName.ToString());
 
 	UE_LOG(LogTemp, Warning, TEXT("Text print = %s"), *Location.ToString());

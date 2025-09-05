@@ -1,6 +1,6 @@
 // Copyright (c) Blizickij Vladimir. All rights reserved
 
-
+//Что то из этого явно лишнее
 #include "FileServerManager.h"
 #include "HttpServerModule.h"
 #include "HttpPath.h"
@@ -9,7 +9,7 @@
 #include "HttpResultCallback.h"
 #include "Misc/FileHelper.h"
 #include "Misc/Paths.h"
-#include "IPAddress.h" // Для получения IP сервера, если нужно
+#include "IPAddress.h" 
 #include "Dice_GameState.h"
 #include "SocketSubsystem.h"
 #include "Interfaces/IPv4/IPv4Address.h"
@@ -49,18 +49,17 @@ bool UFileServerManager::StartServer(int32 Port)
 
     //мб переделать в обычную функцию
     FHttpRequestHandler FileHandlerDelegate = FHttpRequestHandler::CreateLambda([this, MyGS](const FHttpServerRequest& Request, const FHttpResultCallback& OnComplete) -> bool
-    //auto FileHandler = [this](const FHttpServerRequest& Request, const FHttpResultCallback& OnComplete) -> const FHttpRequestHandler
     {
             FString FileName = Request.RelativePath.GetPath();
             UE_LOG(LogTemp, Log, TEXT("HTTP Request for: %s"), *FileName);
 
-            // Удаляем начальный слеш, если он есть
             if (FileName.StartsWith(TEXT("/")))
             {
-                FileName.RemoveAt(0); // Удаляем первый символ '/'
+                FileName.RemoveAt(0); 
             }
             UE_LOG(LogTemp, Log, TEXT("Attempting to serve file: %s"), *FileName);
-            // Проверка на недопустимые символы в имени файла
+
+            // Проверка на недопустимые символы
             if (FileName.IsEmpty() || FileName.Contains("..") || FileName.Contains("/") || FileName.Contains("\\"))
             {
                 UE_LOG(LogTemp, Warning, TEXT("Invalid file name requested: %s"), *FileName);
@@ -74,7 +73,6 @@ bool UFileServerManager::StartServer(int32 Port)
                 return true;
             }
 
-            // Формируем полный путь к файлу на сервере
             FString FullFilePath = FPaths::Combine(PublicFilesDirectory, FileName);
             UE_LOG(LogTemp, Log, TEXT("Trying to serve file: %s"), *FullFilePath);
 
@@ -83,9 +81,9 @@ bool UFileServerManager::StartServer(int32 Port)
                     TArray<uint8> FileData;
                     if (FFileHelper::LoadFileToArray(FileData, *FullFilePath))
                     {
-                        // Определяем Content-Type (упрощенно)
+                        // Определяет Content-Type
                         FString Extension = FPaths::GetExtension(FileName).ToLower();
-                        FString ContentType = TEXT("application/octet-stream"); // По умолчанию
+                        FString ContentType = TEXT("application/octet-stream");
                         if (Extension == TEXT("jpg") || Extension == TEXT("jpeg")) ContentType = TEXT("image/jpeg");
                         else if (Extension == TEXT("png")) ContentType = TEXT("image/png");
                         else if (Extension == TEXT("txt")) ContentType = TEXT("text/plain");
@@ -127,11 +125,10 @@ bool UFileServerManager::StartServer(int32 Port)
             }
             return true;
         });
-    //FHttpPath HttpPath(FString("/") + MyGS->GetSessionName() + TEXT("/*"));
+
+    //Запуск бинд на опредленную папку и вызов функции FileHandlerDelegate
     FHttpPath HttpPath(FString("/") + MyGS->GetSessionName());
     Route->BindRoute(FHttpPath(HttpPath), EHttpServerRequestVerbs::VERB_GET, FileHandlerDelegate);
-
-
     HttpServerModule.StartAllListeners();
 
     UE_LOG(LogTemp, Log, TEXT("HTTP Server started on port %d serving files from %s"), Port, *PublicFilesDirectory);
@@ -143,9 +140,9 @@ void UFileServerManager::StopServer()
     if (Route.IsValid())
     {
         FHttpServerModule& HttpServerModule = FModuleManager::LoadModuleChecked<FHttpServerModule>("HttpServer");
-        // Останавливаем слушателя
+
         HttpServerModule.StopAllListeners();
-        // Освобождаем роутер
+
         Route.Reset();
         UE_LOG(LogTemp, Log, TEXT("HTTP Server stopped."));
     }
@@ -155,7 +152,7 @@ FString UFileServerManager::GetServerURL() const
 {
     if (Route.IsValid())
     {
-        FString MyIP = TEXT("127.0.0.1"); //GetServerIP();
+        FString MyIP = TEXT("127.0.0.1"); //GetServerIP(); // это сделано для тестов на одной машине, перед сборкой, нужно заменить
 
         UE_LOG(LogTemp, Log, TEXT("Server IP Address: %s"), *MyIP);
 

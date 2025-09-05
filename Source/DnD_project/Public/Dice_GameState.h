@@ -22,7 +22,7 @@ public:
 	UFUNCTION()
 	void SetSessionName(const FString& SessionName);
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	FString GetSessionName() const;
 
 };

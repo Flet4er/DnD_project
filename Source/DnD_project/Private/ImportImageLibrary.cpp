@@ -7,6 +7,7 @@
 #include "IImageWrapperModule.h"
 #include "Engine/Texture2D.h"
 #include "Misc/Paths.h"
+#include "Kismet/KismetRenderingLibrary.h"
 
 
 UTexture2D* UImportImageLibrary::OpenFileDialogueAndLoadImage()
@@ -77,4 +78,11 @@ UTexture2D* UImportImageLibrary::OpenFileDialogueAndLoadImage()
 		}
 	}
 	return nullptr;
+}
+
+UTexture2D* UImportImageLibrary::LoadImageFromDisk(UObject* WorldContextObject, FString Filepath)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Calling LoadImageFromDisk with path: %s"), *Filepath);
+	UTexture2D* image = UKismetRenderingLibrary::ImportFileAsTexture2D(WorldContextObject, Filepath);
+	return image;
 }

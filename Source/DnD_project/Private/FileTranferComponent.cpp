@@ -74,16 +74,13 @@ void UFileTranferComponent::SaveReceivedFile(const TArray<uint8>& FileData, cons
 
 void UFileTranferComponent::DownloadFileFromURL(const FString& FileURL, const FString& LocalFileName)
 {
-    // 1. Создаем HTTP запрос
+    //HTTP запрос
     TSharedRef<IHttpRequest, ESPMode::ThreadSafe> HttpRequest = FHttpModule::Get().CreateRequest();
 
-    // 2. Настраиваем запрос
-    HttpRequest->SetTimeout(120);
-    HttpRequest->SetVerb("GET"); // Метод GET для загрузки
-    HttpRequest->SetURL(FileURL); // URL, полученный от сервера
+    HttpRequest->SetTimeout(120); // для больших файлов - больше времени, может 120 - оверкилл
+    HttpRequest->SetVerb("GET"); // можно указать разные методы, GET / POST
+    HttpRequest->SetURL(FileURL);
 
-    // 3. Устанавливаем делегат для обработки ответа
-    // Используем лямбду для захвата LocalFileName
     HttpRequest->OnProcessRequestComplete().BindLambda(
         [this, LocalFileName](FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)
         {
@@ -91,7 +88,7 @@ void UFileTranferComponent::DownloadFileFromURL(const FString& FileURL, const FS
         }
     );
 
-    // 4. Отправляем запрос
+    //Отправка запроса
     HttpRequest->ProcessRequest();
 
     UE_LOG(LogTemp, Log, TEXT("Started downloading file from %s"), *FileURL);
@@ -122,17 +119,14 @@ void UFileTranferComponent::OnDownloadComplete(FHttpRequestPtr Request, FHttpRes
 {
     if (bWasSuccessful && Response.IsValid() && Response->GetResponseCode() == 200)
     {
-        // Запрос успешен и код ответа 200 OK
-        TArray<uint8> FileData = Response->GetContent(); // Получаем данные файла
+        TArray<uint8> FileData = Response->GetContent(); 
 
-        // Сохраняем данные в файл, используя существующую логику
         SaveReceivedFile(FileData, LocalFileName);
 
         UE_LOG(LogTemp, Log, TEXT("File downloaded successfully from %s"), *Request->GetURL());
     }
     else
     {
-        // Обработка ошибок
         FString ErrorMessage = TEXT("Unknown error");
         if (!bWasSuccessful)
         {
@@ -148,7 +142,7 @@ void UFileTranferComponent::OnDownloadComplete(FHttpRequestPtr Request, FHttpRes
         }
         UE_LOG(LogTemp, Error, TEXT("File download failed from %s. Reason: %s"), *Request->GetURL(), *ErrorMessage);
 
-        // Оповещаем Blueprint или выполняем другую логику ошибки
-        RecievingFile(false); // Предполагая, что это сигнализирует о завершении/ошибке
+
+        RecievingFile(false); 
     }
 }
