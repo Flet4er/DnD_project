@@ -8,7 +8,7 @@ public class DnD_project : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "DesktopPlatform" , "ImageWrapper", "ImageWriteQueue", "HTTPServer", "HTTP", "Sockets", "Networking" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "DesktopPlatform" , "ImageWrapper", "ImageWriteQueue", "HTTPServer", "HTTP", "Sockets", "Networking", "GameplayAbilities", "GameplayTags", "GameplayTasks"});
 
 		PrivateDependencyModuleNames.AddRange(new string[] { "SlateCore", "Slate" });
 

@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "AbilitySystemComponent.h"
+#include "MyAttributeSet.h"
 #include "Dice_CreaturePawn.generated.h"
 
 UCLASS()
@@ -28,6 +30,14 @@ public:
 	void SetIsClicked(bool IsClicked);
 	UFUNCTION()
 	bool GetIsClicked();
+	UPROPERTY()
+	UMyAttributeSet* AttributeSet;
+	UPROPERTY()
+	UAbilitySystemComponent* ASComponent;
+	UFUNCTION()
+	void SetupAbilityInput();
+	UFUNCTION(Server,Reliable)
+	void SetLocation_server(FVector Location);
 
 protected:
 	// Called when the game starts or when spawned
