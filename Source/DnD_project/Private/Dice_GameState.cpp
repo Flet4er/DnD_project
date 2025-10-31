@@ -11,6 +11,15 @@ void ADice_GameState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutL
 }
 
 
+void ADice_GameState::SetInMainMenu(bool InMenu)
+{
+	InMainMenu = InMenu;
+}
+bool ADice_GameState::GetInMainMenu()
+{
+	return InMainMenu;
+}
+
 void ADice_GameState::SetSessionName(const FString& SessionName)
 {
 	if (GetLocalRole() == ROLE_Authority)

@@ -19,6 +19,15 @@ public:
 	UPROPERTY(Replicated)
 	FString CurrentSessionName;
 	
+	UPROPERTY()
+	bool InMainMenu;
+
+	UFUNCTION()
+	void SetInMainMenu(bool InMenu);
+
+	UFUNCTION()
+	bool GetInMainMenu();
+
 	UFUNCTION()
 	void SetSessionName(const FString& SessionName);
 

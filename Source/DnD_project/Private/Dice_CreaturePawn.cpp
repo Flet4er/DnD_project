@@ -7,6 +7,7 @@
 #include "GA_Fireball.h"
 #include "GameplayAbilitySet.h"
 #include "AbilitySystemBlueprintLibrary.h"
+#include "DicePlayerController.h"
 
 
 
@@ -40,11 +41,15 @@ void ADice_CreaturePawn::BeginPlay()
 {
 	Super::BeginPlay();
 
-	ASComponent->InitAbilityActorInfo(this, this); //если оставить в конструкторе - краш
+	ASComponent->InitAbilityActorInfo(this, this); //если поставить в конструктор - краш
 	PawnOwner = Cast<APlayerController>(GetOwner());
 	AttributeSet->Health.SetCurrentValue(1000);
 	AttributeSet->Health.SetBaseValue(1000);
+	AttributeSet->Strength.SetBaseValue(15);
+	AttributeSet->Strength.SetCurrentValue(15);
 
+
+	//не происходит на клиенте
 	int32 HealAmount = 500;
 	TSubclassOf<UGameplayEffect> EffectClass = UHealthBoost::StaticClass();
 	FGameplayEffectContextHandle Context = ASComponent->MakeEffectContext();
@@ -91,7 +96,11 @@ void ADice_CreaturePawn::BeginPlay()
 	//ASComponent->TryActivateAbilityByClass(UGA_Fireball::StaticClass());
 		
 	int32 nub = AttributeSet->Health.GetCurrentValue();
-	UE_LOG(LogTemp,Log, TEXT("CurrentHelath is %i"), nub)
+	UE_LOG(LogTemp, Log, TEXT("CurrentHelath is %i"), nub)
+
+		//после всего создаем виджет панель для героя
+		if (HasAuthority()) AddHeroToPanel_client();
+
 }
 
 // Called every frame
@@ -175,3 +184,15 @@ void ADice_CreaturePawn::SetLocation_server_Implementation(FVector Location)
 	this->RootSceneComponent->SetWorldLocation(SetLocation, false);
 }
 
+void ADice_CreaturePawn::AddHeroToPanel_client_Implementation()
+{
+	ADicePlayerController* MyPC = Cast<ADicePlayerController>(GetOwner());
+	if (MyPC)
+	{
+		MyPC->AddToHeroPanel(this);
+	}
+	else
+	{
+
+	}
+}

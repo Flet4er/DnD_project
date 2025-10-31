@@ -30,14 +30,16 @@ public:
 	void SetIsClicked(bool IsClicked);
 	UFUNCTION()
 	bool GetIsClicked();
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UMyAttributeSet* AttributeSet;
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UAbilitySystemComponent* ASComponent;
 	UFUNCTION()
 	void SetupAbilityInput();
 	UFUNCTION(Server,Reliable)
 	void SetLocation_server(FVector Location);
+	UFUNCTION(Client,Reliable)
+	void AddHeroToPanel_client();
 
 protected:
 	// Called when the game starts or when spawned

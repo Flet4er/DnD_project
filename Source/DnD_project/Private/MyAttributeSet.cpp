@@ -22,3 +22,18 @@ void UMyAttributeSet::OnRep_Health(const FGameplayAttributeData& OldHealth)
 {
 	//GAMEPLAYATTRIBUTE_REPNOTIFY(UMyAttributeSet, Health, OldHealth);
 }
+
+void UMyAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
+{
+	Super::PreAttributeChange(Attribute, NewValue);
+
+	if (Attribute == GetStrengthAttribute())
+	{
+		//float NewHealth;
+	}
+}
+
+void UMyAttributeSet::PostAttributeChange(const FGameplayAttribute& Attribute, float OldValue, float NewValue)
+{
+	Super::PostAttributeChange(Attribute, OldValue, NewValue);
+}
