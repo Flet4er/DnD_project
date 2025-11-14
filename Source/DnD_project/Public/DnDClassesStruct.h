@@ -33,8 +33,39 @@ enum class EDnDRacesEnum : uint8
 	Halfling	UMETA(DisplayName = "Halfling"),
 	Human		UMETA(DisplayName = "Human"),
 	Orc			UMETA(DisplayName = "Orc"),
-	Tiefling	UMETA(DisplayName = "Tiefling")
+	Tiefling	UMETA(DisplayName = "Tiefling"),
+};
 
+UENUM(BlueprintType)
+enum class EDnDStatsEnum : uint8
+{
+	Strength		UMETA(DisplayName = "Strength"),
+	Dexterity		UMETA(DisplayName = "Dexterity"),
+	Constitution	UMETA(DisplayName = "Constitution"),
+	Intelligence	UMETA(DisplayName = "Intelligence"),
+	Wisdom			UMETA(DisplayName = "Wisdom"),
+	Charisma		UMETA(DisplayName = "Charisma"),
+};
+
+UENUM(BlueprintType)
+enum class EDnDAttributesEnum : uint8
+{
+	Acrobatics		UMETA(DisplayName = "Acrobatics"),
+	Arcana			UMETA(DisplayName = "Arcana"),
+	Athletics		UMETA(DisplayName = "Athletics"),
+	Deception		UMETA(DisplayName = "Deception"),
+	History			UMETA(DisplayName = "History"),
+	Insight			UMETA(DisplayName = "Insight"),
+	Intimidation	UMETA(DisplayName = "Intimidation"),
+	Investigation	UMETA(DisplayName = "Investigation"),
+	Medicine		UMETA(DisplayName = "Medicine"),
+	Nature			UMETA(DisplayName = "Nature"),
+	Perception		UMETA(DisplayName = "Perception"),
+	Performance		UMETA(DisplayName = "Performance"),
+	Religion		UMETA(DisplayName = "Religion"),
+	SleightHand		UMETA(DisplayName = "SleightHand"),
+	Stealth			UMETA(DisplayName = "Stealth"),
+	Survival		UMETA(DisplayName = "Survival"),
 };
 
 USTRUCT(BlueprintType)
@@ -46,4 +77,3 @@ struct DND_PROJECT_API FDnDClassesStruct
 	EDnDClassesEnum Class;
 
 };
-
