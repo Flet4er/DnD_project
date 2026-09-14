@@ -12,7 +12,8 @@
 ADiceCube_Base::ADiceCube_Base()
 {
 	PrimaryActorTick.bCanEverTick = true;
-
+	DiceMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Dice Mesh"));
+	SetRootComponent(DiceMesh);
 }
 
 // Called when the game starts or when spawned
@@ -47,6 +48,7 @@ void ADiceCube_Base::BeginPlay()
 		break;
 
 	}
+	DiceMesh->SetSimulatePhysics(true);
 }
 
 

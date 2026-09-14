@@ -22,10 +22,13 @@ public:
 
 protected:
 	bool bIsBeenThrown;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool bIsGrabbed;
 	static const TArray<FVector> D20Normals;
 	TArray<class UTextRenderComponent*> TextRenders;
 	TArray<class UArrowComponent*> Normals;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	UStaticMeshComponent* DiceMesh;
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
