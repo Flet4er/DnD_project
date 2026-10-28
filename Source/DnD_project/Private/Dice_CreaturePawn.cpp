@@ -169,7 +169,10 @@ void ADice_CreaturePawn::SetupAbilityInput()
 		FGameplayAbilityInputBinds(
 			TEXT("ConfirmTarget"),
 			TEXT("CancelTarget"),
-			TEXT("EAbilityInputID"),
+			FTopLevelAssetPath(
+				TEXT("/Script/DnD_project"),
+				TEXT("EAbilityInputID")
+			),
 			static_cast<int32>(EAbilityInputID::None),
 			static_cast<int32>(EAbilityInputID::Fireball)
 		)

@@ -11,8 +11,10 @@ Saved/
 *.sdf
 *.opensdf
 *.sln
+*.slnx
 *.suo
 *.user
 *.userprefs
 *.tmp
 *.log
+*.vsconfig
